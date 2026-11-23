@@ -1,0 +1,22 @@
+{
+  "name": "pptxkit",
+  "version": "0.0.0",
+  "description": "Read, build and change native PowerPoint files.",
+  "license": "MIT",
+  "author": "Pascal Göllner",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pgoell/pptxkit.git"
+  },
+  "type": "module",
+  "exports": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

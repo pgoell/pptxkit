@@ -1,0 +1,30 @@
+name: Publish
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - if: env.NODE_AUTH_TOKEN == ''
+        run: echo "::warning::NPM_TOKEN is not set, so nothing goes to npm. The tag still installs from the git URL."
+      - if: env.NODE_AUTH_TOKEN != ''
+        uses: actions/checkout@v4
+      - if: env.NODE_AUTH_TOKEN != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - if: env.NODE_AUTH_TOKEN != ''
+        run: npm test
+      - if: env.NODE_AUTH_TOKEN != ''
+        run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+      - if: env.NODE_AUTH_TOKEN != ''
+        run: npm publish --provenance --access public
